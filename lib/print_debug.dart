@@ -30,12 +30,12 @@ void _printLog(dynamic value, {dynamic error, String? logType, String textColor 
       '\u001b[0m$backgroundColor$textColor$value\u001b[0m');
   if (error != null) {
     log(
-      "===============START ERROR=================",
+      "===============S ERROR=================",
       error: error,
       name: logType ?? "DEBUG",
     );
     log(
-      "===============END   ERROR===================",
+      "===============E ERROR=================",
       name: logType ?? "DEBUG",
     );
   }
