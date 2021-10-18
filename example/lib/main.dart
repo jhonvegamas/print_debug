@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:print_debug/print_debug.dart';
 
 void main() {
-  PrintDebug.init(showInReleaseMode: false, visiblePrints: ["SERVICE","ERROR"]);
+  PrintDebug.init(showInReleaseMode: false,showIcons: true, visiblePrints: ["SERVICE","ERROR"]);
   runApp(MyApp());
 }
 
