@@ -2,7 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:print_debug/print_debug.dart';
 
 void main() {
-  PrintDebug.init(showInReleaseMode: false,showIcons: true, visiblePrints: ["SERVICE","ERROR"]);
+  PrintDebug.init(
+    showInReleaseMode: false,
+    showIcons: true,
+    visiblePrints: [
+      PrintType.DEBUG,
+      PrintType.ERROR,
+      PrintType.WARNING,
+      PrintType.SUCCESS,
+      PrintType.LOG,
+    ],
+  );
   runApp(MyApp());
 }
 
@@ -17,14 +27,30 @@ class _MyAppState extends State<MyApp> {
   void _incrementCounter() {
     setState(() {
       printDebug("Sample Hello World");
-      printDebug("Hello Color!", textColor: TextColor.black, backgroundColor: BackGroundColor.purple);
-      printDebug("Hello Debug!", textColor: TextColor.red, backgroundColor: BackGroundColor.white, logType: "DEBUG");
-      printDebug("Hello Service!", textColor: TextColor.black, backgroundColor: BackGroundColor.blue, logType: "SERVICE");
+      printDebug(
+        "Hello Color 1!",
+        textColor: TextColor.black,
+        backgroundColor: BackGroundColor.purple,
+      );
+      printDebug(
+        "Hello Color 2!",
+        textColor: TextColor.blue,
+        backgroundColor: BackGroundColor.white,
+      );
+
+      printDebug("Hello Debug!", printType: PrintType.DEBUG);
+      printDebug("Hello Warning!", printType: PrintType.WARNING);
+      printDebug("Hello Success!", printType: PrintType.SUCCESS);
+      printDebug("Hello Log!", printType: PrintType.LOG);
 
       try {
-        throw("Error test");
+        throw ("Error in try catch");
       } catch (e) {
-        printDebug("Error in try catch!", error:e, logType: "ERROR");
+        printDebug(
+          "Hello Error",
+          error: e,
+          printType: PrintType.ERROR,
+        );
       }
       _counter++;
     });
@@ -50,10 +76,7 @@ class _MyAppState extends State<MyApp> {
               ),
               Text(
                 '$_counter',
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .headline4,
+                style: Theme.of(context).textTheme.headline4,
               ),
             ],
           ),

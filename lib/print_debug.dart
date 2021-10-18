@@ -4,45 +4,78 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 
-List<String> _listSee = [];
+List<PrintType> _listSee = [];
 bool _showInReleaseMode = false;
 bool _showIcons = true;
 
+enum PrintType { DEBUG, ERROR, WARNING, SUCCESS, LOG }
+
 class PrintDebug {
-  static init({List<String>? visiblePrints, bool showInReleaseMode = false, bool showIcons = true}) {
+  static init({
+    List<PrintType>? visiblePrints,
+    bool showInReleaseMode = false,
+    bool showIcons = true,
+  }) {
     _listSee = visiblePrints ??= [
-      "DEBUG",
-      "ERROR",
+      PrintType.DEBUG,
+      PrintType.ERROR,
+      PrintType.WARNING,
+      PrintType.SUCCESS,
+      PrintType.LOG,
     ];
     _showInReleaseMode = showInReleaseMode;
     _showIcons = showIcons;
   }
 }
 
-void printDebug(dynamic value, {dynamic error, String? logType, String textColor = '', String backgroundColor = ''}) {
+void printDebug(
+  dynamic value, {
+  dynamic error,
+  PrintType? printType,
+  String textColor = '',
+  String backgroundColor = '',
+}) {
   if (_showInReleaseMode || !kReleaseMode) {
-    if (_listSee.length == 0 || logType == null) {
-      _printLog(value, error: error, logType: logType, textColor: textColor, backgroundColor: backgroundColor);
-    } else if (_listSee.contains(logType)) {
-      _printLog(value, error: error, logType: logType, textColor: textColor, backgroundColor: backgroundColor);
+    if (_listSee.length == 0 || printType == null) {
+      _printLog(value, error: error, printType: printType, textColor: textColor, backgroundColor: backgroundColor);
+    } else if (_listSee.contains(printType)) {
+      _printLog(value, error: error, printType: printType, textColor: textColor, backgroundColor: backgroundColor);
     }
   }
 }
 
-void _printLog(dynamic value, {dynamic error, String? logType, String textColor = '', String backgroundColor = ''}) {
-  String _icons = (error == null ? "\u001b[0m${TextColor.green}✔\u001b[0m " : "\u001b[0m${TextColor.red}❌\u001b[0m ");
-  print((_showIcons?_icons:"") +
-      '\u001b[0m$backgroundColor$textColor$value\u001b[0m');
+void _printLog(
+  dynamic value, {
+  dynamic error,
+  PrintType? printType,
+  String textColor = '',
+  String backgroundColor = '',
+}) {
+  String _icon = "";
+  switch (printType) {
+    case PrintType.DEBUG:
+      _icon = "🔧 ";
+      _icon = "\u001b[0m${TextColor.blue}🔧\u001b[0m ";
+      break;
+    case PrintType.ERROR:
+      _icon = "\u001b[0m${TextColor.red}❌\u001b[0m ";
+      break;
+    case PrintType.WARNING:
+      _icon = "\u001b[0m${TextColor.yellow}⚠\u001b[0m ";
+      break;
+    case PrintType.SUCCESS:
+      _icon = "\u001b[0m${TextColor.green}✔\u001b[0m ";
+      break;
+    case PrintType.LOG:
+      _icon = "\u001b[0m${TextColor.blue}🌐\u001b[0m ";
+      break;
+    default:
+      _icon = '🟡 ';
+  }
+  print((_showIcons ? _icon : "") + '\u001b[0m$backgroundColor$textColor$value\u001b[0m');
   if (error != null) {
-    log(
-      "===============S ERROR=================",
-      error: error,
-      name: logType ?? "DEBUG",
-    );
-    log(
-      "===============E ERROR=================",
-      name: logType ?? "DEBUG",
-    );
+    log("===============S ERROR=================", error: error, name: "ERROR");
+    log("===============E ERROR=================", name: "ERROR");
   }
 }
 
