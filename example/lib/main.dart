@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:print_debug/print_debug.dart';
 
 void main() {
+  PrintDebug.init(showInReleaseMode: false, visiblePrints: ["SERVICE","ERROR"]);
   runApp(MyApp());
 }
 
@@ -16,9 +17,9 @@ class _MyAppState extends State<MyApp> {
   void _incrementCounter() {
     setState(() {
       printDebug("Sample Hello World");
-      printDebug("Hello World!", textColor: TextColor.black, backgroundColor: BackGroundColor.purple);
-      printDebug("Hello World!", textColor: TextColor.red, backgroundColor: BackGroundColor.white);
-      printDebug("Hello World!", textColor: TextColor.green, backgroundColor: BackGroundColor.cyan);
+      printDebug("Hello Color!", textColor: TextColor.black, backgroundColor: BackGroundColor.purple);
+      printDebug("Hello Debug!", textColor: TextColor.red, backgroundColor: BackGroundColor.white, logType: "DEBUG");
+      printDebug("Hello Service!", textColor: TextColor.black, backgroundColor: BackGroundColor.blue, logType: "SERVICE");
 
       try {
         throw("Error test");

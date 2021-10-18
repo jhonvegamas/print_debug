@@ -7,17 +7,19 @@ import 'package:flutter/foundation.dart';
 List<String> _listSee = [];
 bool _showInReleaseMode = false;
 
-void init({List<String>? visiblePrints, bool showInReleaseMode = false}) {
-  _listSee = visiblePrints ??= [
-    "DEBUG",
-    "ERROR",
-  ];
-  _showInReleaseMode = showInReleaseMode;
+class PrintDebug {
+  static init({List<String>? visiblePrints, bool showInReleaseMode = false}) {
+    _listSee = visiblePrints ??= [
+      "DEBUG",
+      "ERROR",
+    ];
+    _showInReleaseMode = showInReleaseMode;
+  }
 }
 
 void printDebug(dynamic value, {dynamic error, String? logType, String textColor = '', String backgroundColor = ''}) {
   if (_showInReleaseMode || !kReleaseMode) {
-    if (_listSee.length == 0) {
+    if (_listSee.length == 0 || logType==null) {
       _printLog(value, error: error, logType: logType, textColor: textColor, backgroundColor: backgroundColor);
     } else if (_listSee.contains(logType)) {
       _printLog(value, error: error, logType: logType, textColor: textColor, backgroundColor: backgroundColor);
@@ -25,7 +27,7 @@ void printDebug(dynamic value, {dynamic error, String? logType, String textColor
   }
 }
 
-void _printLog(dynamic value, {dynamic error, String? logType, String textColor = '', String backgroundColor = ''}){
+void _printLog(dynamic value, {dynamic error, String? logType, String textColor = '', String backgroundColor = ''}) {
   print((error == null ? "\u001b[0m${TextColor.green}✔\u001b[0m " : "\u001b[0m${TextColor.red}❌\u001b[0m ") +
       '\u001b[0m$backgroundColor$textColor$value\u001b[0m');
   if (error != null) {
