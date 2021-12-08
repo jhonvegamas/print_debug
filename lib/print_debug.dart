@@ -1,6 +1,7 @@
 library print_debug;
 
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
@@ -54,32 +55,59 @@ void _printLog(
   String _icon = "";
   switch (printType) {
     case PrintType.DEBUG:
-      _icon = "🔧 ";
-      _icon = "\u001b[0m${TextColor.blue}🔧\u001b[0m ";
+      if (Platform.isIOS) {
+        _icon = "🔧";
+      } else {
+        _icon += "\u001b[0m${TextColor.cyan}🔧\u001b[0m";
+      }
       break;
     case PrintType.ERROR:
-      _icon = "\u001b[0m${TextColor.red}❌\u001b[0m ";
+      if (Platform.isIOS) {
+        _icon = "❌";
+      } else {
+        _icon = "\u001b[0m${TextColor.red}❌\u001b[0m";
+      }
       break;
     case PrintType.WARNING:
-      _icon = "\u001b[0m${TextColor.yellow}⚠\u001b[0m ";
+      if (Platform.isIOS) {
+        _icon = "⚠";
+      } else {
+        _icon = "\u001b[0m${TextColor.yellow}⚠\u001b[0m";
+      }
       break;
     case PrintType.SUCCESS:
-      _icon = "\u001b[0m${TextColor.green}✔\u001b[0m ";
+      if (Platform.isIOS) {
+        _icon = "✔";
+      } else {
+        _icon = "\u001b[0m${TextColor.green}✔\u001b[0m";
+      }
       break;
     case PrintType.LOG:
-      _icon = "\u001b[0m${TextColor.blue}🌐\u001b[0m ";
+      if (Platform.isIOS) {
+        _icon = "📌";
+      } else {
+        _icon = "\u001b[0m${TextColor.blue}📌\u001b[0m";
+      }
       break;
     default:
-      _icon = '🟡 ';
+      if (Platform.isIOS) {
+        _icon = "🔔";
+      } else {
+        _icon = '\u001b[0m${TextColor.yellow}🔔\u001b[0m';
+      }
   }
-  print((_showIcons ? _icon : "") + '\u001b[0m$backgroundColor$textColor$value\u001b[0m');
+  if (Platform.isIOS) {
+    print((_showIcons ? _icon : "") + ' $value');
+  } else {
+    print((_showIcons ? _icon : "") + '  \u001b[0m$backgroundColor$textColor$value\u001b[0m');
+  }
+
   if (error != null) {
-    log("===============S ERROR=================", error: error, name: "ERROR");
-    log("===============E ERROR=================", name: "ERROR");
+    log(value, error: error, name: "ERROR");
   }
 }
 
-//class TextColor
+//class TextColor Only Windows
 class TextColor {
   ///textColor balck unicode
   static final String black = '\u001B[30m';
@@ -106,7 +134,7 @@ class TextColor {
   static final String orange = '\u001b[38;5;202m';
 }
 
-///class BackgroundColor
+///class BackgroundColor Only Windows
 class BackGroundColor {
   ///backgroundClor black unicode
   static final String black = "\u001B[40m";
