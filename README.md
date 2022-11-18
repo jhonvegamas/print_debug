@@ -1,4 +1,4 @@
-# based
+# Based
 colorful_print
 pub.dev: https://pub.dev/packages/colorful_print
 
@@ -8,12 +8,9 @@ Prit debug
 
 ## Getting Started
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+**pubspec.yaml
+ print_debug:
+    git: https://github.com/jhonvegamas/print_debug.git
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
+**code
+  printDebug('test');
