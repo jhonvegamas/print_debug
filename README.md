@@ -8,9 +8,9 @@ Prit debug
 
 ## Getting Started
 
-**pubspec.yaml
+### pubspec.yaml
  print_debug:
     git: https://github.com/jhonvegamas/print_debug.git
 
-**code
+### code
   printDebug('test');
